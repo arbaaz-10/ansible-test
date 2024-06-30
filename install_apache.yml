@@ -4,6 +4,15 @@
   become: true
   tasks:
 
+  - name: update repository index
+    apt: 
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update repository index
+    yum:
+      update_cache: yes
+
   - name: Install apache package
     yum: 
       name: httpd
@@ -17,5 +26,5 @@
   - name: Stop firewalld, if started
     ansible.builtin.service:
       name: firewalld
-      state: stopped
+      state: started
 
