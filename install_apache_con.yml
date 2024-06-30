@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Install apache and nginx package
+    package: 
+      name: 
+        - httpd
+        - nginx-core
+      state: latest
+      update_cache: yes
+
+  - name: Start Webservers
+    service:
+      name: "{{ item }}"
+      state: started
+    loop:
+      - httpd
+      - nginx
+
+  - name: Start firewalld, if stopped
+    service:
+      name: firewalld
+      state: started
+
